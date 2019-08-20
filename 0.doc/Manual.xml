@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Programer manual of up_pqgui -->
+<manual>
+    <Summary>
+        
+    </Summary>
+    <ConfigFile>
+        <general name="update.cfg">
+            ip = 192.168.1.89
+            port = 12307
+            typeidx = 0 <!-- type index, only used for up_pqgui.exe -->
+            type = 1    <!-- command type, i.e. script number. refer to .sys/type_map.lst & .sys/script for detail -->
+            force = 0   <!-- force update. 0=disable, 1=enable -->
+            prog = 0x1  <!-- program list to force an update. bit0-bit31, 0=no, 1=yes. refer to .sys/force_up.lst for detail -->
+            cst61850 = 2  <!-- 61850 customer. refer to .sys/cst61850.lst for detail -->
+            reboot = 1  <!-- Whether to reboot after the update. 0=no, 1=yes -->
+            debug = 0   <!-- debug mode. 0=no, 1=yes -->
+            kernel = 0  <!-- Whether update kernel, 0=no, 1=yes -->
+            vendor = 1  <!-- vendor number. refer to vendors.lst for detail -->
+        </general>
+        <type_map name=".sys/script/type_map.lst">
+            #num:name
+            #length of name not over 60 char
+            1:PQNet300D
+            2:_PQAny316
+            11:Get debug information
+            12:Get sysconfig
+            13:Get event_info
+            14:Get cycle10
+            15:_Get MAC address
+            ...
+        </type_map>
+        <cst61850 name=".sys/cst61850.lst">
+            #num:name
+            #length of name not over 60 char
+            1:Fujian 福建电网
+            2:Hebei 河北电网
+            3:Henan 河南电网
+            4:Shanxi 山西电网
+            5:StateGrid 国网
+            ...
+        </cst61850>
+    </ConfigFile>
+    <HideSetting>
+    	升级后是否重启 -- 双击 61850 所在行右侧空白区域。蓝色 叉号
+    	调试(只判断, 不实施) -- 双击 IP 左侧空白区域。
+    	更改 Port -- 双击 Port
+    	更改 Vendor -- 双击 Vendor
+    	更改 Kernel Update -- 双击 te
+    </HideSetting>
+	<FAQ>
+		<Q1 desc="如何编译为运行时不弹出命令行窗口?">
+			增加 -mwindows 链接选项, 在 CMakeLists.txt 中的语句如下：
+			set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mwindows")
+		</Q1>
+	</FAQ>
+</manual>	

@@ -1,0 +1,4 @@
+// the configured options and settings for Tutorial
+#define _VERSION_MAJ @_VERSION_MAJ@
+#define _VERSION_MIN @_VERSION_MIN@
+#define _VERSION_PAT @_VERSION_PAT@
