@@ -15,7 +15,7 @@ Project TpFile=
 2=.\0.doc\
 3=.\src\
 4=..\up_pqied\up_pqied.h
-5=config_gui.h.in
+5=config.h.in
 [Group Filter]
 .\x86\=Makefile
 [Group]

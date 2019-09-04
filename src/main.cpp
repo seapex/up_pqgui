@@ -1,25 +1,23 @@
-
-#include <cstdio>
+#include <stdint.h>
+#include <stdio.h>
 #include <FL/Fl.H>
 #include <FL/Fl_Ask.H>
 #include <FL/x.H>   // needed for fl_display
 #include "windows.h"
 #include "icon.h"
 
-#include "config_gui.h"
-#include "../config.h"
+#include "config.h"
 #include "up_pqied.h"
 #include "up_gui.h"
 #include "main_window.h"
-
-using namespace std;
 
 SharePara g_share_para;   //share param
 
 int main(int argc, char**argv)
 {
+    uint32_t ver = system("up_pqied.exe -v > nul");
     char title[32];
-    sprintf(title, "up_pqied:%d.%d.%d GUI:%d.%d", _VERSION_MAJOR, _VERSION_MINOR, _VERSION_PATCH, _VERSION_MAJ, _VERSION_MIN);
+    sprintf(title, "up_pqied:%d.%d.%d GUI:%d.%d", ver>>22, (ver>>10)&0x3ff, ver&0x3ff, _VERSION_MAJOR, _VERSION_MINOR);
     //sprintf(title, "up_pqied:3.26.28 GUI:4.56.78");
     
     MainWindow *window = new MainWindow(340, 226, title);

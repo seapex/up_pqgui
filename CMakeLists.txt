@@ -2,13 +2,13 @@ cmake_minimum_required (VERSION 2.8)
 project (up_pqgui)
 
 # The version number.
-set (_VERSION_MAJ 1)
-set (_VERSION_MIN 0)
-#set (_VERSION_PAT 0)
+set (_VERSION_MAJOR 1)
+set (_VERSION_MINOR 1)
+#set (_VERSION_PATCH 0)
 
 # configure a header file to pass some of the CMake settings to the source code
-configure_file ( "${PROJECT_SOURCE_DIR}/config_gui.h.in"
-                 "${PROJECT_BINARY_DIR}/config_gui.h" )
+configure_file ( "${PROJECT_SOURCE_DIR}/config.h.in"
+                 "${PROJECT_BINARY_DIR}/config.h" )
 
 # add the binary tree to the search path for include files so that we will find config.h
 include_directories ("${PROJECT_BINARY_DIR}")
