@@ -18,7 +18,7 @@ MainWindow::MainWindow(int W, int H, const char *Label) : Fl_Window(W, H, Label)
     ParaFileRead(&g_share_para);
 
     int y = 12, x = 78;
-    choice_type_ = new CustomChoice(x, y, 230, 24, "Type: ");
+    choice_type_ = new CustomChoice(x, y, 250, 24, "Type: ");
     ReadCfgFile(kTypeMap, &g_share_para);
     if (g_share_para.type.val > choice_type_->size()-2) {
         choice_type_->value(0);
@@ -90,7 +90,7 @@ MainWindow::MainWindow(int W, int H, const char *Label) : Fl_Window(W, H, Label)
     chk_btn_kernel_->deactivate();
 
     y += 36;
-    button_start_ = new Fl_Button(x+174, y, 64, 32, "Start");
+    button_start_ = new Fl_Button(x+194, y, 64, 32, "Start");
     button_start_->callback(MainWindow::CBButtonStart, &g_share_para);
     button_start_->take_focus();
 
@@ -102,7 +102,7 @@ MainWindow::MainWindow(int W, int H, const char *Label) : Fl_Window(W, H, Label)
     y += 20;
     //status_info_ = new Fl_Box(FL_DOWN_BOX, 4, y, 200, 18, "Hello");
     status_info_ = new Fl_Box(4, y, 200, 18);
-    printf("status_info_->align()=%x\n", status_info_->align());
+    //printf("status_info_->align()=%x\n", status_info_->align());
     status_info_->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
     status_info_->labelcolor(FL_BLUE);
 }

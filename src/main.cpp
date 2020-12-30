@@ -65,14 +65,18 @@ int main(int argc, char**argv)
     sprintf(title, "up_pqied:%d.%d.%d GUI:%d.%d", ver>>22, (ver>>10)&0x3ff, ver&0x3ff, _VERSION_MAJOR, _VERSION_MINOR);
     */
     char obuf[64];
-    int ver[3];
+    int ver[3], luav[2];
     if (system_hide(obuf, 64, "up_pqied.exe -v")) {
         printf("%s\n", obuf);
         sscanf(obuf, "up_pqied %d.%d.%d", &ver[0], &ver[1], &ver[2]);
     }
-    sprintf(title, "up_pqied:%d.%d.%d GUI:%d.%d", ver[0], ver[1], ver[2], _VERSION_MAJOR, _VERSION_MINOR);
+    if (system_hide(obuf, 64, "up_pqied.exe -luav")) {
+        printf("%s\n", obuf);
+        sscanf(obuf, "preprocess.lua %d.%d", &luav[0], &luav[1]);
+    }
+    sprintf(title, "%d.%d | up_pqied:%d.%d.%d prxx.lc:%d.%d", _VERSION_MAJOR, _VERSION_MINOR, ver[0], ver[1], ver[2], luav[0], luav[1]);
 
-    MainWindow *window = new MainWindow(340, 226, title);
+    MainWindow *window = new MainWindow(360, 226, title);
     window->end();
     g_share_para.update = false;
     window->callback(CBMainWindow, &g_share_para);
