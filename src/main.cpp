@@ -60,7 +60,7 @@ bool system_hide(char *out, int cnt, const char *cmd)
 
 int main(int argc, char**argv)
 {
-    char title[32];
+    char title[48];
     /*uint32_t ver = system("up_pqied.exe -v > nul");
     sprintf(title, "up_pqied:%d.%d.%d GUI:%d.%d", ver>>22, (ver>>10)&0x3ff, ver&0x3ff, _VERSION_MAJOR, _VERSION_MINOR);
     */
@@ -75,7 +75,6 @@ int main(int argc, char**argv)
         sscanf(obuf, "preprocess.lua %d.%d", &luav[0], &luav[1]);
     }
     sprintf(title, "%d.%d | up_pqied:%d.%d.%d prxx.lc:%d.%d", _VERSION_MAJOR, _VERSION_MINOR, ver[0], ver[1], ver[2], luav[0], luav[1]);
-
     MainWindow *window = new MainWindow(360, 226, title);
     window->end();
     g_share_para.update = false;
