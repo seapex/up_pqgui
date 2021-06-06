@@ -47,11 +47,12 @@
     	更改 Port -- 双击 Port
     	更改 Vendor -- 双击 Vendor
     	更改 Kernel Update -- 双击 te
+    	是否自动关闭命令行窗口 -- 双击 Vendor 左下角
     </HideSetting>
 	<FAQ>
 		<Q1 desc="如何编译为运行时不弹出命令行窗口?">
-			增加 -mwindows 链接选项, 在 CMakeLists.txt 中的语句如下：
+			增加 -mwindows 链接选项, 在 CMakeLists.txt 中的语句如下:
 			set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mwindows")
 		</Q1>
 	</FAQ>
-</manual>	
+</manual>

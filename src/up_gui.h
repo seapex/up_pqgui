@@ -31,18 +31,19 @@ struct ChoiceItem {
 
 struct SharePara {
     ChoiceItem type;    //Correspond to choice_type_
-    ChoiceItem prog;   //Correspond to choice_prog_
-    ChoiceItem t61850;   //Correspond to choice_61850_
-    ChoiceItem vendor;   //Correspond to choice_vendor_
+    ChoiceItem prog;    //Correspond to choice_prog_
+    ChoiceItem t61850;  //Correspond to choice_61850_
+    ChoiceItem vendor;  //Correspond to choice_vendor_
     int force;
-    int force_prog;     //bit access, 0=no, 1=yes
+    int force_prog; //bit access, 0=no, 1=yes
     char ip[32];
     char port[8];
-    bool update;
+    bool update;    //Whether these parameters have been updated. 1=yes, 0=no
     void *pmwin;    //point to MainWindow
-    int reboot;     //If reboot after upgrade. 1=yes, 0=no
+    int reboot;     //Whether reboot after upgrade. 1=yes, 0=no
     int debug;
-    int kernel;     //if update kernel. 1=yes, 0=no
+    int kernel;     //Whether update kernel. 1=yes, 0=no
+    int pause;      //Whether auto close cmd line.  1=yes, 0=no
 };
 
 extern SharePara g_share_para;   //share param

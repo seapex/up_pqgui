@@ -68,13 +68,13 @@ int main(int argc, char**argv)
     int ver[3], luav[2];
     if (system_hide(obuf, 64, "up_pqied.exe -v")) {
         printf("%s\n", obuf);
-        sscanf(obuf, "up_pqied %d.%d.%d", &ver[0], &ver[1], &ver[2]);
+        sscanf(obuf, "up_pqied %d.%d", &ver[0], &ver[1]);
     }
     if (system_hide(obuf, 64, "up_pqied.exe -luav")) {
         printf("%s\n", obuf);
         sscanf(obuf, "preprocess.lua %d.%d", &luav[0], &luav[1]);
     }
-    sprintf(title, "%d.%d | up_pqied:%d.%d.%d prxx.lc:%d.%d", _VERSION_MAJOR, _VERSION_MINOR, ver[0], ver[1], ver[2], luav[0], luav[1]);
+    sprintf(title, "%d.%d | up_pqied:%d.%d prxx.lc:%d.%d", _VERSION_MAJOR, _VERSION_MINOR, ver[0], ver[1], luav[0], luav[1]);
     MainWindow *window = new MainWindow(360, 226, title);
     window->end();
     g_share_para.update = false;
@@ -126,6 +126,10 @@ void CBMainWindow(Fl_Widget * wdg, void * data)
         para->kernel = 0;
         para->update = true;
     }
+    if (para->pause == 1) {
+        para->pause = 0;
+        para->update = true;
+    }
     ParaFileSave(para);
 
     //KeyFileClean();
@@ -139,6 +143,8 @@ void ParaFileRead(SharePara *para)
     strcpy(para->ip, "192.168.1.100");
     strcpy(para->port, "12307");
     para->reboot = 1;
+    para->kernel = 0;
+    para->pause = 0;
 
     FILE *fp;
     const char *file_name = kCfgFile;
@@ -257,13 +263,16 @@ void ParaFileSave(SharePara *para)
     fprintf(fp, "ip = %s\n", para->ip);
     fprintf(fp, "port = %s\n", para->port);
     fprintf(fp, "typeidx = %d\n", para->type.val);
-    fprintf(fp, "type = %d\n", TypeIdx2Type(para->type.val));
+    //fprintf(fp, "type = %d\n", TypeIdx2Type(para->type.val));
+    fprintf(fp, "type = %d\n", para->type.item_idx[para->type.val]);
+    
     fprintf(fp, "prog = 0x%X\n", para->prog.val);
     fprintf(fp, "force = %d\n", para->force);
     fprintf(fp, "cst61850 = %d\n", para->t61850.val+1);
     fprintf(fp, "reboot = %d\n", para->reboot);
     fprintf(fp, "vendor = %d\n", para->vendor.val+1);
     fprintf(fp, "kernel = %d\n", para->kernel);
+    fprintf(fp, "pause = %d\n", para->pause);
     fclose(fp);
 }
 

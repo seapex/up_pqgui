@@ -89,15 +89,21 @@ MainWindow::MainWindow(int W, int H, const char *Label) : Fl_Window(W, H, Label)
     chk_btn_kernel_->value(g_share_para.kernel);
     chk_btn_kernel_->deactivate();
 
-    y += 36;
+    y += 30;
+    chk_btn_pause_ = new Fl_Check_Button(x-56, y, 170, 24, "Auto close the cmd line");
+    chk_btn_pause_->callback(MainWindow::CBButtonPause, &g_share_para);
+    chk_btn_pause_->value(!g_share_para.pause);
+    chk_btn_pause_->redraw_label();
+    chk_btn_pause_->clear_visible();
+
+    y += 6;
     button_start_ = new Fl_Button(x+194, y, 64, 32, "Start");
     button_start_->callback(MainWindow::CBButtonStart, &g_share_para);
     button_start_->take_focus();
 
-    button_test_ = new TestButton(x+80, y, 64, 32, "Test");
+    button_test_ = new TestButton(x+96, y, 64, 32, "Test");
     button_test_->callback(MainWindow::CBButtonTest, &g_share_para);
     button_test_->clear_visible();
-    
 
     y += 20;
     //status_info_ = new Fl_Box(FL_DOWN_BOX, 4, y, 200, 18, "Hello");
@@ -162,7 +168,17 @@ int MainWindow::handle(int event)
             } else {
                 chk_btn_kernel_->activate();
             }
+        } else if (x>chk_btn_pause_->x()-20&&x<chk_btn_pause_->x()
+            &&y>chk_btn_pause_->y()&&y<chk_btn_pause_->y()+chk_btn_pause_->h()) {
+            if ( chk_btn_pause_->visible() ) {
+                chk_btn_pause_->clear_visible();
+                redraw();
+            } else {
+                chk_btn_pause_->set_visible();
+                chk_btn_pause_->redraw();
+            }
         }
+        
     }
     //printf("event=%s\n",  fl_eventnames[event]);
     //printf("double-click is %d\n", Fl::event_clicks());
@@ -208,12 +224,17 @@ void MainWindow::CBEditPort(Fl_Widget * wdg, void * data)
 
 void MainWindow::CBButtonStart(Fl_Widget * buttn, void * data)
 {
+    static char str_inf[64];
     buttn->deactivate();  //Deactivate the button prevent button from being pressed again
     SharePara * para = (SharePara *)data;
     ParaFileSave(para);
     MainWindow * pwin = (MainWindow *)para->pmwin;
     pwin->status_info_->label("");
 
+    const char *cmd_t;
+    if (para->type.item_idx[para->type.val]<=10) cmd_t = "Upgrade";
+    else cmd_t = "Operation";
+    
     char stri[64];
     sprintf(stri, "up_pqied.exe %s", para->ip);
     if (para->debug) strcpy(&stri[strlen(stri)], " dbg");
@@ -221,7 +242,8 @@ void MainWindow::CBButtonStart(Fl_Widget * buttn, void * data)
     int ret = system(stri);
     if (ret==0) {
         pwin->status_info_->labelcolor(FL_BLUE);
-        pwin->status_info_->label("Upgrade succeed!");
+        sprintf(str_inf, "%s succeed!", cmd_t);
+        pwin->status_info_->label(str_inf);
     } else if (ret==1) {
         pwin->status_info_->labelcolor(FL_FOREGROUND_COLOR);
         pwin->status_info_->label("Don't need to upgrade!");
@@ -232,7 +254,8 @@ void MainWindow::CBButtonStart(Fl_Widget * buttn, void * data)
         //fl_alert("Don't need upgrade!! %d", ret);
     } else {
         pwin->status_info_->labelcolor(FL_RED);
-        pwin->status_info_->label("Upgrade failed!");
+        sprintf(str_inf, "%s failed!", cmd_t);
+        pwin->status_info_->label(str_inf);
     }
 
     buttn->activate();  // reactivate button
@@ -255,6 +278,16 @@ void MainWindow::CBButtonForce(Fl_Widget * buttn, void * data)
     para->force = pchkbtn->value();    
     if (para->force) pchkbtn->labelcolor(FL_RED);
     else pchkbtn->labelcolor(FL_FOREGROUND_COLOR);
+    pchkbtn->redraw_label();
+    para->update = true;
+}
+
+void MainWindow::CBButtonPause(Fl_Widget * buttn, void * data)
+{
+    SharePara * para = (SharePara *)data;
+    Fl_Button *pchkbtn =  (Fl_Button *)buttn;
+    //printf("buttn->value=%d, label=%s\n", pchkbtn->value(), pchkbtn->label());
+    para->pause = !pchkbtn->value();    
     pchkbtn->redraw_label();
     para->update = true;
 }
@@ -369,4 +402,5 @@ int MainWindow::ReadCfgFile(CfgFileType type, void *para)
             pmitem++; 
         }
     }
+    return 0;
 }

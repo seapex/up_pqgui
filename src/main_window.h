@@ -44,6 +44,7 @@ public:
     Fl_Box *label_debug_;
     Fl_Box *status_info_;
     Fl_Box *debug_box_;
+    Fl_Check_Button *chk_btn_pause_;
 
 private:
     virtual int handle(int event);
@@ -57,6 +58,7 @@ private:
     static void CBButtonKernel(Fl_Widget *wdg, void * type);
     static void CBChoice61850(Fl_Widget *wdg, void * type);
     static void CBChoiceVendor(Fl_Widget * choic, void * data);
+    static void CBButtonPause(Fl_Widget *wdg, void * type);
 
     
     int ReadCfgFile(CfgFileType type, void *para);
